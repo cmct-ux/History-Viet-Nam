@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chi tiết sự kiện lịch sử</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header id="eventTitle">Sự kiện</header>
+
+<div class="container">
+  <h2>Nguyên nhân</h2>
+  <div id="causes"></div>
+
+  <h2>Sự kiện chính</h2>
+  <div id="mainEvent"></div>
+
+  <h2>Hệ quả</h2>
+  <div id="effects"></div>
+
+  <button onclick="showAnalysis()">Phân tích chi tiết hệ quả</button>
+
+  <div id="analysis" class="analysis" style="display:none;"></div>
+</div>
+
+<script src="data.js"></script>
+<script>
+  const id = new URLSearchParams(window.location.search).get("id");
+  const event = events.find(e => e.id == id);
+
+  document.getElementById("eventTitle").innerText = event.name;
+
+  document.getElementById("causes").innerHTML =
+    event.causes.map(c => `<div class="branch-box">${c}</div>`).join("");
+
+  document.getElementById("mainEvent").innerHTML =
+    `<div class="branch-box">${event.main}</div>`;
+
+  document.getElementById("effects").innerHTML =
+    event.effects.map(e => `<div class="branch-box">${e}</div>`).join("");
+
+  function showAnalysis() {
+    const box = document.getElementById("analysis");
+    box.style.display = "block";
+    box.innerHTML = event.analysis.map(a => `<p>• ${a}</p>`).join("");
+  }
+</script>
+
+</body>
+</html>
